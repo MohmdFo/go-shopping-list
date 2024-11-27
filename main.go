@@ -33,6 +33,11 @@ func main() {
 			continue
 		}
 
+		if item == "search" {
+			search()
+			continue
+		}
+
 		// Check if the user wants to remove an item
 		if item == "remove" {
 			removeItemFromList() // Call function to handle item removal
@@ -53,6 +58,27 @@ func contains(slice []string, item string) bool {
 		}
 	}
 	return false
+}
+
+func search() {
+	var item_to_search string
+	fmt.Print("Enter the item you want to search: ")
+	fmt.Scanln(&item_to_search)                                         // Get the item to search
+	item_to_search = strings.ToLower(strings.TrimSpace(item_to_search)) // Normalize the input
+
+	found := false // Flag to track if the item is found
+
+	for _, value := range shoppingList {
+		if value == item_to_search {
+			fmt.Printf("Item '%s' exists in the list.\n", item_to_search)
+			found = true // Set the flag to true if the item is found
+			break
+		}
+	}
+
+	if !found { // Check the flag after the loop
+		fmt.Printf("Item '%s' does not exist in the list.\n", item_to_search)
+	}
 }
 
 // Function to display the shopping list in a beautiful format
