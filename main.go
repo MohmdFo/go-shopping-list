@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -21,6 +23,7 @@ func main() {
 
 		// Check if input is in exit_commands
 		if contains(exit_commands, item) {
+			clearScreen()
 			fmt.Println("Exiting... Here's your shopping list:")
 			displayShoppingList(shoppingList) // Display the shopping list beautifully
 			break
@@ -28,32 +31,47 @@ func main() {
 
 		// Show help if the user types 'help'
 		if item == "help" {
+			clearScreen()
 			displayHelp()
 			continue
 		}
 
 		// Check if the user wants to show the shopping list
 		if item == "show" {
+			clearScreen()
 			fmt.Println("Here's your shopping list so far:")
 			displayShoppingList(shoppingList)
 			continue
 		}
 
 		if item == "search" {
+			clearScreen()
 			search()
 			continue
 		}
 
 		// Check if the user wants to remove an item
 		if item == "remove" {
+			clearScreen()
 			removeItemFromList() // Call function to handle item removal
 			continue
 		}
 
 		// Append the input to the shopping list
 		shoppingList = append(shoppingList, item)
+		clearScreen()
 		fmt.Printf("Added '%s' to the shopping list.\n", item)
 	}
+}
+
+// Function to clear the terminal screen
+func clearScreen() {
+	cmd := exec.Command("clear") // Use "cls" for Windows
+	if strings.Contains(os.Getenv("OS"), "Windows") {
+		cmd = exec.Command("cmd", "/c", "cls")
+	}
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 }
 
 // Helper function to check if a string is in a slice
