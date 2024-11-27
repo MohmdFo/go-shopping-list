@@ -13,7 +13,7 @@ var shoppingList []string
 func main() {
 	for {
 		var item string
-		fmt.Print("Enter an item to add to the shopping list (type 'remove' to delete an item, 'show' to display the list, or 'quit' to exit): ")
+		fmt.Print("Enter an item (type 'quit' to exit, 'help' for commands): ")
 		fmt.Scanln(&item) // Get user input
 
 		// Trim spaces and convert input to lowercase
@@ -24,6 +24,12 @@ func main() {
 			fmt.Println("Exiting... Here's your shopping list:")
 			displayShoppingList(shoppingList) // Display the shopping list beautifully
 			break
+		}
+
+		// Show help if the user types 'help'
+		if item == "help" {
+			displayHelp()
+			continue
 		}
 
 		// Check if the user wants to show the shopping list
@@ -60,6 +66,18 @@ func contains(slice []string, item string) bool {
 	return false
 }
 
+// Function to display help information
+func displayHelp() {
+	fmt.Println("\nAvailable commands:")
+	fmt.Println("  quit    - Exit the program")
+	fmt.Println("  help    - Show this help message")
+	fmt.Println("  show    - Display the shopping list")
+	fmt.Println("  remove  - Remove an item from the shopping list")
+	fmt.Println("  search  - Search for an item in the shopping list")
+	fmt.Println("\nSimply enter an item to add it to the shopping list.")
+}
+
+// Function to search for an item in the shopping list
 func search() {
 	var item_to_search string
 	fmt.Print("Enter the item you want to search: ")
