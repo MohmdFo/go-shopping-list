@@ -13,7 +13,7 @@ var shoppingList []string
 func main() {
 	for {
 		var item string
-		fmt.Print("Enter an item to add to the shopping list (or type 'quit' to exit): ")
+		fmt.Print("Enter an item to add to the shopping list (type 'remove' to delete an item, 'show' to display the list, or 'quit' to exit): ")
 		fmt.Scanln(&item) // Get user input
 
 		// Trim spaces and convert input to lowercase
@@ -26,9 +26,16 @@ func main() {
 			break
 		}
 
+		// Check if the user wants to show the shopping list
 		if item == "show" {
 			fmt.Println("Here's your shopping list so far:")
 			displayShoppingList(shoppingList)
+			continue
+		}
+
+		// Check if the user wants to remove an item
+		if item == "remove" {
+			removeItemFromList() // Call function to handle item removal
 			continue
 		}
 
@@ -50,7 +57,35 @@ func contains(slice []string, item string) bool {
 
 // Function to display the shopping list in a beautiful format
 func displayShoppingList(list []string) {
+	if len(list) == 0 {
+		fmt.Println("The shopping list is empty.")
+		return
+	}
 	for _, item := range list {
 		fmt.Printf("--> %s\n", item)
+	}
+}
+
+// Function to remove an item from the shopping list
+func removeItemFromList() {
+	var itemToRemove string
+	fmt.Print("Enter the item you want to remove: ")
+	fmt.Scanln(&itemToRemove)                                       // Get the item to remove
+	itemToRemove = strings.ToLower(strings.TrimSpace(itemToRemove)) // Normalize the input
+
+	index := -1
+	for i, value := range shoppingList { // Find the index of the item
+		if value == itemToRemove {
+			index = i
+			break
+		}
+	}
+
+	if index == -1 { // Item not found
+		fmt.Printf("Item '%s' does not exist in the shopping list.\n", itemToRemove)
+	} else {
+		// Remove the item by slicing
+		shoppingList = append(shoppingList[:index], shoppingList[index+1:]...)
+		fmt.Printf("Item '%s' has been removed from the shopping list.\n", itemToRemove)
 	}
 }
