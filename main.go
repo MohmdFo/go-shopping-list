@@ -12,23 +12,23 @@ var shoppingList []string
 
 func main() {
 	for {
-		var input string
+		var item string
 		fmt.Print("Enter an item to add to the shopping list (or type 'quit' to exit): ")
-		fmt.Scanln(&input) // Get user input
+		fmt.Scanln(&item) // Get user input
 
 		// Trim spaces and convert input to lowercase
-		input = strings.ToLower(strings.TrimSpace(input))
+		item = strings.ToLower(strings.TrimSpace(item))
 
 		// Check if input is in exit_commands
-		if contains(exit_commands, input) {
+		if contains(exit_commands, item) {
 			fmt.Println("Exiting... Here's your shopping list:")
 			displayShoppingList(shoppingList) // Display the shopping list beautifully
 			break
 		}
 
 		// Append the input to the shopping list
-		shoppingList = append(shoppingList, input)
-		fmt.Printf("Added '%s' to the shopping list.\n", input)
+		shoppingList = append(shoppingList, item)
+		fmt.Printf("Added '%s' to the shopping list.\n", item)
 	}
 }
 
