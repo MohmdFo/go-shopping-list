@@ -26,6 +26,12 @@ func main() {
 			break
 		}
 
+		if item == "show" {
+			fmt.Println("Here's your shopping list so far:")
+			displayShoppingList(shoppingList)
+			continue
+		}
+
 		// Append the input to the shopping list
 		shoppingList = append(shoppingList, item)
 		fmt.Printf("Added '%s' to the shopping list.\n", item)
