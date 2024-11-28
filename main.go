@@ -65,6 +65,12 @@ func main() {
 			continue
 		}
 
+		// Check for duplicate items
+		if contains(shoppingList, item) {
+			fmt.Printf("Item '%s' is already in the shopping list. Please add something else.\n", item)
+			continue
+		}
+
 		// Append the input to the shopping list
 		shoppingList = append(shoppingList, item)
 		clearScreen()
