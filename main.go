@@ -44,6 +44,14 @@ func main() {
 			continue
 		}
 
+		// Check if the user wants to see the total number of items
+		if item == "total" {
+			clearScreen()
+			displayTotal()
+			continue
+		}
+
+		// Check if the user wants to search for an item
 		if item == "search" {
 			clearScreen()
 			search()
@@ -90,9 +98,16 @@ func displayHelp() {
 	fmt.Println("  quit    - Exit the program")
 	fmt.Println("  help    - Show this help message")
 	fmt.Println("  show    - Display the shopping list")
+	fmt.Println("  total   - Display the total number of items in the shopping list")
 	fmt.Println("  remove  - Remove an item from the shopping list")
 	fmt.Println("  search  - Search for an item in the shopping list")
 	fmt.Println("\nSimply enter an item to add it to the shopping list.")
+}
+
+// Function to display the total number of items in the shopping list
+func displayTotal() {
+	totalItems := len(shoppingList)
+	fmt.Printf("There are a total of %d items in your shopping list.\n", totalItems)
 }
 
 // Function to search for an item in the shopping list
