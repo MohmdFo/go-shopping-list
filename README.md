@@ -25,6 +25,7 @@ This is a simple terminal-based **shopping list application** written in Go. It 
 - **`remove`**: Remove a specified item from the shopping list.
 - **`search`**: Check if a specific item exists in the shopping list.
 - **`total`**: Display the total number of items in the shopping list.
+- **`priority`**: Change the priority of an item by moving it to a different position in the list.
 - **Adding Items**: Simply type the name of an item to add it to your list.
 
 ---
