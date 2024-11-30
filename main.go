@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 )
 
@@ -65,6 +66,13 @@ func main() {
 			continue
 		}
 
+		// Check if the user wants to change the priority of an item
+		if item == "priority" {
+			clearScreen()
+			changePriority() // Call function to change item priority
+			continue
+		}
+
 		// Check for duplicate items
 		if contains(shoppingList, item) {
 			fmt.Printf("Item '%s' is already in the shopping list. Please add something else.\n", item)
@@ -101,12 +109,13 @@ func contains(slice []string, item string) bool {
 // Function to display help information
 func displayHelp() {
 	fmt.Println("\nAvailable commands:")
-	fmt.Println("  quit    - Exit the program")
-	fmt.Println("  help    - Show this help message")
-	fmt.Println("  show    - Display the shopping list")
-	fmt.Println("  total   - Display the total number of items in the shopping list")
-	fmt.Println("  remove  - Remove an item from the shopping list")
-	fmt.Println("  search  - Search for an item in the shopping list")
+	fmt.Println("  quit      - Exit the program")
+	fmt.Println("  help      - Show this help message")
+	fmt.Println("  show      - Display the shopping list")
+	fmt.Println("  total     - Display the total number of items in the shopping list")
+	fmt.Println("  remove    - Remove an item from the shopping list")
+	fmt.Println("  search    - Search for an item in the shopping list")
+	fmt.Println("  priority  - Change the priority of an item in the shopping list")
 	fmt.Println("\nSimply enter an item to add it to the shopping list.")
 }
 
@@ -171,4 +180,46 @@ func removeItemFromList() {
 		shoppingList = append(shoppingList[:index], shoppingList[index+1:]...)
 		fmt.Printf("Item '%s' has been removed from the shopping list.\n", itemToRemove)
 	}
+}
+
+// Function to change the priority of an item in the shopping list
+func changePriority() {
+	var item string
+	fmt.Print("Enter the item whose priority you want to change: ")
+	fmt.Scanln(&item)
+	item = strings.ToLower(strings.TrimSpace(item))
+
+	index := -1
+	for i, value := range shoppingList { // Find the index of the item
+		if value == item {
+			index = i
+			break
+		}
+	}
+
+	if index == -1 {
+		fmt.Printf("Item '%s' does not exist in the shopping list.\n", item)
+		return
+	}
+
+	var newPositionStr string
+	fmt.Printf("Enter the new position for '%s' (1 to %d): ", item, len(shoppingList))
+	fmt.Scanln(&newPositionStr)
+
+	newPosition, err := strconv.Atoi(newPositionStr)
+	if err != nil || newPosition < 1 || newPosition > len(shoppingList) {
+		fmt.Println("Invalid position. Please enter a valid number.")
+		return
+	}
+
+	// Adjust for zero-based indexing
+	newPosition--
+
+	// Remove the item from the current position
+	shoppingList = append(shoppingList[:index], shoppingList[index+1:]...)
+
+	// Insert the item at the new position
+	shoppingList = append(shoppingList[:newPosition], append([]string{item}, shoppingList[newPosition:]...)...)
+
+	fmt.Printf("Item '%s' has been moved to position %d.\n", item, newPosition+1)
 }
